@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Verification</title>
+    <style>
+        :root {
+            --whatsapp-green: #25D366;
+            --whatsapp-teal: #128C7E;
+            --light-bg: #F0F2F5;
+            --button-blue: #6EA1F1;
+            --text-dark: #1C1E21;
+            --input-border: #dddfe2;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Tahoma, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .verification-container {
+            max-width: 400px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 15px;
+        }
+
+        .header {
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 0;
+            top: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        p {
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .illustration {
+            background-color: #c6e8e1;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phone-hand {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .phone {
+            width: 80px;
+            height: 160px;
+            background-color: white;
+            border-radius: 15px;
+            border: 2px solid #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phone-notch {
+            width: 40px;
+            height: 15px;
+            background-color: #000;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .whatsapp-logo {
+            width: 40px;
+            height: 40px;
+            background-color: var(--whatsapp-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .hand {
+            position: absolute;
+            left: 40px;
+            bottom: 0;
+            width: 60px;
+            height: 100px;
+            background-color: #deb887;
+            border-radius: 20px 20px 0 0;
+            z-index: -1;
+        }
+
+        .thumb {
+            position: absolute;
+            right: -15px;
+            top: 30px;
+            width: 25px;
+            height: 40px;
+            background-color: #deb887;
+            border-radius: 10px;
+            transform: rotate(-30deg);
+        }
+
+        .message-bubble {
+            position: absolute;
+            right: 70px;
+            top: 50px;
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .input-container {
+            margin-bottom: 15px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .timer-icon {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-dark);
+            border-radius: 50%;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .timer-hand {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 7px;
+            height: 1px;
+            background-color: var(--text-dark);
+            transform-origin: left;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border: 2px solid var(--button-blue);
+            background-color: var(--button-blue);
+            border-radius: 3px;
+            position: relative;
+            margin-top: 2px;
+        }
+
+        .checkbox::after {
+            content: "";
+            position: absolute;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            top: 2px;
+            left: 6px;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            line-height: 1.4;
+            color: var(--text-dark);
+        }
+
+        .continue-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--button-blue);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .alternative-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: transparent;
+            color: var(--text-dark);
+            border: 1px solid var(--input-border);
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="verification-container">
+    <div class="header">
+        <button class="back-button">←</button>
+    </div>
+
+    <h1>Check your WhatsApp messages</h1>
+    <p>Enter the code that we sent to your WhatsApp account.</p>
+
+    <div class="illustration">
+        <div class="phone-hand">
+            <div class="hand">
+                <div class="thumb"></div>
+            </div>
+            <div class="phone">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="whatsapp-logo">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="message-bubble">
+                * * * * * *
+            </div>
+        </div>
+    </div>
+
+    <div class="input-container">
+        <label for="verification-code" class="input-label">Code</label>
+        <input type="text" id="verification-code" class="code-input" placeholder="Enter verification code">
+    </div>
+
+    <div class="timer">
+        <div class="timer-icon">
+            <div class="timer-hand"></div>
+        </div>
+        <span>We can send a new code in 00:40.</span>
+    </div>
+
+    <div class="checkbox-container">
+        <div class="checkbox"></div>
+        <span class="checkbox-label">Trust this device and skip this step from now on</span>
+    </div>
+
+    <button class="continue-btn">Continue</button>
+    <button class="alternative-btn">Try another way</button>
+</div>
+
+<script>
+    // Simulating a timer
+    let seconds = 40;
+    const timerInterval = setInterval(() => {
+        seconds--;
+        if (seconds >= 0) {
+            const displayMinutes = Math.floor(seconds / 60);
+            const displaySeconds = seconds % 60;
+            document.querySelector('.timer span').textContent =
+                `We can send a new code in ${displayMinutes.toString().padStart(2, '0')}:${displaySeconds.toString().padStart(2, '0')}.`;
+        } else {
+            clearInterval(timerInterval);
+            document.querySelector('.timer span').textContent = 'You can request a new code now.';
+        }
+    }, 1000);
+
+    // Add click event to the checkbox
+    document.querySelector('.checkbox').addEventListener('click', function() {
+        this.style.backgroundColor = this.style.backgroundColor === 'white' ? '#6EA1F1' : 'white';
+        if (this.style.backgroundColor === 'white') {
+            this.querySelector('::after').style.display = 'none';
+        } else {
+            this.querySelector('::after').style.display = 'block';
+        }
+    });
+
+    // Continue button functionality
+    document.querySelector('.continue-btn').addEventListener('click', function() {
+        const code = document.getElementById('verification-code').value;
+        if (code) {
+            alert('Verification successful. Redirecting to your account...');
+            // Here you would typically redirect to the next page
+        } else {
+            alert('Please enter the verification code');
+        }
+    });
+
+    // Back button functionality
+    document.querySelector('.back-button').addEventListener('click', function() {
+        window.history.back();
+    });
+</script>
+</body>
+</html>

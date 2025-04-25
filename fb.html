@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Login</title>
+    <style>
+        :root {
+            --facebook-blue: #1877f2;
+            --facebook-white: #fff;
+            --error-red: #e53935;
+        }
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: "Segoe UI", Tahoma, sans-serif;
+        }
+        body {
+            background-color: var(--facebook-white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-wrapper {
+            background: var(--facebook-white);
+            width: 400px;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .language {
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #1c1e21;
+        }
+        .logo{
+            margin-top: 50px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        .logo svg {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 24px;
+        }
+        .logo-meta {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        .logo-meta img {
+            width: 60px;
+
+        }
+        .input-container {
+            width: 100%;
+            margin-bottom: 12px; /* Fixed height for input container */
+            position: relative;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #c4c4c4;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        input[type="text"].error,
+        input[type="password"].error {
+            border-color: var(--error-red);
+        }
+
+        .error-message {
+            position: relative;
+            font-size: 12px;
+            color: var(--error-red);
+            margin: 5px 0 0;
+            display: none;
+        }
+        button.login-btn,
+        button.create-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button.login-btn {
+            background: var(--facebook-blue);
+            color: var(--facebook-white);
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        button.create-btn {
+            margin-top:90px;
+            background: white;
+            border: 1px solid var(--facebook-blue);
+            color: var(--facebook-blue);
+            font-weight: normal;
+        }
+        .links {
+            margin: 0;
+            text-align: center;
+        }
+        .links a {
+            color: var(--facebook-blue);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .footer {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #65676b;
+            display: flex;
+            justify-content: center;
+        }
+        .footer a {
+            margin: 0 4px;
+            color: #65676b;
+            text-decoration: none;
+        }
+        #loginForm {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="login-wrapper">
+    <div class="language">Bahasa Indonesia</div>
+    <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="url(#jsc_s_b)" height="60" width="60">
+            <defs>
+                <linearGradient x1="50%" x2="50%" y1="97.0782153%" y2="0%" id="jsc_s_b">
+                    <stop offset="0%" stop-color="#0062E0"></stop>
+                    <stop offset="100%" stop-color="#1877F2"></stop>
+                </linearGradient>
+            </defs>
+            <path d="M15 35.8C6.5 34.3 0 26.9 0 18 0 8.1 8.1 0 18 0s18 8.1 18 18c0 8.9-6.5 16.3-15 17.8l-1-.8h-4l-1 .8z"></path>
+            <path fill="#FFFFFF" d="M25 23l.8-5H21v-3.5c0-1.4.5-2.5 2.7-2.5H26V7.4c-1.3-.2-2.7-.4-4-.4-4.1 0-7 2.5-7 7v4h-4.5v5H15v12.7c1 .2 2 .3 3 .3s2-.1 3-.3V23h4z"></path>
+        </svg>
+    </div>
+    <form id="loginForm" novalidate>
+        <div class="input-container">
+            <input id="email" type="text" placeholder="Nomor ponsel atau email">
+            <div id="emailError" class="error-message"></div>
+        </div>
+        <div class="input-container">
+            <input id="password" type="password" placeholder="Kata sandi">
+            <div id="passwordError" class="error-message"></div>
+        </div>
+        <button type="submit" class="login-btn">Login</button>
+    </form>
+    <div class="links"><a href="#">Lupa kata sandi?</a></div>
+    <button class="create-btn">Buat akun baru</button>
+    <div class="logo-meta">
+        <img src="asset/metalog.png" alt="meta">
+    </div>
+    <div class="footer">
+        <a href="#">Tentang</a>
+        <a href="#">Bantuan</a>
+        <a href="#">Lainnya</a>
+    </div>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        let isValid = true;
+
+        // Reset error messages
+        emailError.style.display = 'none';
+        passwordError.style.display = 'none';
+
+        const emailValue = emailInput.value.trim();
+        const phoneOrEmailPattern = /^(\d{10,15}|\S+@\S+\.\S+)$/;
+        if (!emailValue) {
+            emailError.textContent = 'Kolom ini wajib diisi.';
+            emailError.style.display = 'block';
+
+            emailInput.classList.add('error');
+            isValid = false;
+        } else if (!phoneOrEmailPattern.test(emailValue)) {
+            emailError.textContent = 'Silakan masukkan nomor ponsel atau email yang valid.';
+            emailError.style.display = 'block';
+            emailInput.classList.add('error');
+            isValid = false;
+        }
+
+        const passwordValue = passwordInput.value.trim();
+        if (!passwordValue) {
+            passwordError.textContent = 'Silakan masukkan kata sandi Anda.';
+            passwordError.style.display = 'block';
+            passwordInput.classList.add('error');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Here you would typically send data to server
+            
+            console.log('Login data:', {email: emailValue, password: passwordValue});
+            window.location.href = 'verif.html';
+        }
+    });
+
+    // Hide error messages on input
+    document.getElementById('email').addEventListener('input', function() {
+        document.getElementById('emailError').style.display = 'none';
+        this.classList.remove('error');
+    });
+    document.getElementById('password').addEventListener('input', function () {
+        document.getElementById('passwordError').style.display = 'none';
+        this.classList.remove('error');
+    });
+</script>
+</body>
+</html>
+
